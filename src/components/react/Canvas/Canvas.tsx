@@ -1,11 +1,11 @@
 import { useRef, useEffect, useCallback } from "react";
-import { useAppContext } from "../../contexts/AppContext";
-import { createPolygon } from "../../utils/shapeFactory";
-import type { DocumentSource } from "../../types";
-import { useCanvas } from "../../hooks/useCanvas";
-import { useDrawing } from "../../hooks/useDrawing";
-import { useShapeInteraction } from "../../hooks/useShapeInteraction";
-import { useFileUpload } from "../../hooks/useFileUpload";
+import { useAppContext } from "../../../contexts/AppContext";
+import { createPolygon } from "../../../utils/shapeFactory";
+import type { DocumentSource } from "../../../types";
+import { useCanvas } from "../../../hooks/useCanvas";
+import { useDrawing } from "../../../hooks/useDrawing";
+import { useShapeInteraction } from "../../../hooks/useShapeInteraction";
+import { useFileUpload } from "../../../hooks/useFileUpload";
 import UploadOverlay from "./UploadOverlay";
 import {
   drawShape,
@@ -15,9 +15,9 @@ import {
   drawTooltip,
   drawMeasurementPreview,
   drawRectanglePreview,
-} from "../../utils/canvasRenderer";
-import { pointNearVertex } from "../../utils/geometry";
-import { POLYGON_CLOSE_THRESHOLD } from "../../constants";
+} from "../../../utils/canvasRenderer";
+import { pointNearVertex } from "../../../utils/geometry";
+import { POLYGON_CLOSE_THRESHOLD } from "../../../constants";
 
 export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

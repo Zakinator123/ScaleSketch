@@ -1,0 +1,66 @@
+---
+import { Ruler, Image, Shapes, RotateCcw, Layers, Zap } from 'lucide-react';
+
+const features = [
+  {
+    icon: Image,
+    title: 'Image Upload',
+    description: 'Drag-and-drop or paste images directly. Supports floor plans, blueprints, and photos.',
+  },
+  {
+    icon: Ruler,
+    title: 'Scale Calibration',
+    description: 'Set a known distance to calibrate measurements. All shapes automatically scale.',
+  },
+  {
+    icon: Shapes,
+    title: 'Drawing Tools',
+    description: 'Lines, rectangles, and polygons with real-time area and perimeter calculations.',
+  },
+  {
+    icon: RotateCcw,
+    title: 'Undo/Redo',
+    description: 'Full history support with keyboard shortcuts. Never lose your work.',
+  },
+  {
+    icon: Layers,
+    title: 'Shape Management',
+    description: 'Label, organize, and toggle visibility of shapes. Export measurements.',
+  },
+  {
+    icon: Zap,
+    title: 'Fast & Offline',
+    description: 'No server needed. Everything runs in your browser. Your data stays private.',
+  },
+];
+---
+
+<section class="py-24 px-4 bg-background-secondary">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold text-text mb-4">
+        Everything You Need
+      </h2>
+      <p class="text-xl text-text-secondary max-w-2xl mx-auto">
+        Professional measurement tools without the complexity or cost
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {features.map((feature) => (
+        <div class="bg-background border border-border rounded-lg p-6 hover:border-primary transition-colors">
+          <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+            <feature.icon className="w-6 h-6 text-primary" />
+          </div>
+          <h3 class="text-xl font-semibold text-text mb-2">
+            {feature.title}
+          </h3>
+          <p class="text-text-secondary">
+            {feature.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+

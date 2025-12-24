@@ -1,0 +1,36 @@
+---
+import { Button } from '../ui/button';
+import { Coffee } from 'lucide-react';
+---
+
+<section class="py-24 px-4 bg-gradient-to-t from-background to-background-secondary">
+  <div class="max-w-4xl mx-auto text-center">
+    <h2 class="text-4xl md:text-5xl font-bold text-text mb-6">
+      Ready to Start Measuring?
+    </h2>
+    
+    <p class="text-xl text-text-secondary mb-8">
+      No sign-up required. Start using ScaleSketch right now.
+    </p>
+    
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <Button size="lg" asChild>
+        <a href="/" class="text-lg px-8 py-6">
+          Launch App →
+        </a>
+      </Button>
+      
+      <Button variant="outline" size="lg" asChild>
+        <a href="https://buymeacoffee.com/scalesketch" target="_blank" rel="noopener noreferrer" class="text-lg px-8 py-6 flex items-center gap-2">
+          <Coffee className="w-5 h-5" />
+          Buy Me a Coffee
+        </a>
+      </Button>
+    </div>
+    
+    <p class="text-sm text-text-muted mt-8">
+      Free forever. No credit card required.
+    </p>
+  </div>
+</section>
+

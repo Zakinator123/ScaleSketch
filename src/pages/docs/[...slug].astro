@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+  return docs.map((doc) => ({
+    params: { slug: doc.slug },
+    props: { doc },
+  }));
+}
+
+const { doc } = Astro.props;
+const { Content } = await doc.render();
+---
+
+<BaseLayout 
+  title={`${doc.data.title} - ScaleSketch Documentation`}
+  description={doc.data.description}
+>
+  <div class="min-h-screen bg-background">
+    <div class="max-w-4xl mx-auto px-4 py-16">
+      <nav class="mb-8">
+        <a href="/docs" class="text-primary hover:underline">← Back to Documentation</a>
+      </nav>
+      
+      <article class="prose prose-invert prose-lg max-w-none">
+        <h1 class="text-4xl font-bold text-text mb-4">{doc.data.title}</h1>
+        <p class="text-xl text-text-secondary mb-8">{doc.data.description}</p>
+        
+        <div class="text-text-secondary">
+          <Content />
+        </div>
+      </article>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .prose {
+    color: #e0e0e0;
+  }
+  
+  .prose h2 {
+    color: #ffffff;
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .prose h3 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .prose p {
+    margin-bottom: 1rem;
+    line-height: 1.75;
+  }
+  
+  .prose ul, .prose ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .prose li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .prose code {
+    background: #2a2a2a;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+  }
+  
+  .prose pre {
+    background: #2a2a2a;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+  
+  .prose a {
+    color: #3a7bc8;
+    text-decoration: underline;
+  }
+  
+  .prose a:hover {
+    color: #5a9bd8;
+  }
+</style>
+

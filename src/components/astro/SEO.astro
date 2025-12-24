@@ -1,0 +1,72 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
+}
+
+const {
+  title = 'ScaleSketch - Precise Measurement Tool for Floor Plans',
+  description = 'Upload images and draw precisely measured shapes with real-world measurements. Perfect for floor plans, blueprints, and architectural drawings.',
+  image = '/og-image.png',
+  article = false,
+  publishedTime,
+  modifiedTime,
+} = Astro.props;
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://scalesketch.com';
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const ogImageUrl = new URL(image, siteUrl);
+
+// Structured data for rich snippets
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': article ? 'Article' : 'WebApplication',
+  name: 'ScaleSketch',
+  description: description,
+  url: canonicalURL.toString(),
+  applicationCategory: 'DesignApplication',
+  operatingSystem: 'Web Browser',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  ...(article && publishedTime && {
+    datePublished: publishedTime,
+    dateModified: modifiedTime || publishedTime,
+  }),
+};
+---
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={article ? 'article' : 'website'} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:site_name" content="ScaleSketch" />
+{article && publishedTime && <meta property="article:published_time" content={publishedTime} />}
+{article && modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={ogImageUrl} />
+
+<!-- Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+

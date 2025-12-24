@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles that work with Tailwind */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-background text-text antialiased;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  #root {
+    @apply w-screen h-screen overflow-hidden;
+  }
+
+  button {
+    font-family: inherit;
+  }
+
+  input,
+  select {
+    font-family: inherit;
+  }
+}
+
+/* Keep the existing App.css for now - we'll migrate incrementally */
+/* This allows the React app to continue working while we transition */
+

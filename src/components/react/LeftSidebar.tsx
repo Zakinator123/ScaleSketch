@@ -1,6 +1,6 @@
 import React from 'react';
 import { Ruler, Undo2, Redo2, Lightbulb, RotateCcw, Trash2 } from 'lucide-react';
-import type { Tool, Unit } from '../types';
+import type { Tool, Unit } from '../../types';
 
 interface LeftSidebarProps {
   activeTool: Tool;

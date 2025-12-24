@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Ruler } from 'lucide-react';
-import type { Shape, ScaleCalibration, Unit } from '../types';
-import { calculateMeasurements } from '../utils/measurement';
-import { formatMeasurement, formatArea } from '../utils/units';
+import type { Shape, ScaleCalibration, Unit } from '../../types';
+import { calculateMeasurements } from '../../utils/measurement';
+import { formatMeasurement, formatArea } from '../../utils/units';
 
 interface ShapeAttributesProps {
   selectedShape: Shape | null;

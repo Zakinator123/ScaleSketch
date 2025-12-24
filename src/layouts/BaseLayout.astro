@@ -1,0 +1,46 @@
+---
+import '../styles/globals.css';
+import SEO from '../components/astro/SEO.astro';
+import { Analytics } from '@vercel/analytics/react';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
+}
+
+const {
+  title,
+  description,
+  image,
+  article,
+  publishedTime,
+  modifiedTime,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    
+    <SEO 
+      title={title}
+      description={description}
+      image={image}
+      article={article}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+    />
+  </head>
+  <body class="bg-background text-text">
+    <slot />
+    <Analytics client:only="react" />
+  </body>
+</html>
+

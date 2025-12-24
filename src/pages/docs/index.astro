@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const docs = await getCollection('docs', ({ data }) => data.published !== false);
+const sortedDocs = docs.sort((a, b) => (a.data.order || 999) - (b.data.order || 999));
+---
+
+<BaseLayout 
+  title="Documentation - ScaleSketch"
+  description="Learn how to use ScaleSketch's measurement tools for floor plans and blueprints"
+>
+  <div class="min-h-screen bg-background">
+    <div class="max-w-4xl mx-auto px-4 py-16">
+      <h1 class="text-4xl md:text-5xl font-bold text-text mb-4">Documentation</h1>
+      <p class="text-xl text-text-secondary mb-12">
+        Everything you need to know about using ScaleSketch
+      </p>
+      
+      <div class="space-y-6">
+        {sortedDocs.map((doc) => (
+          <a 
+            href={`/docs/${doc.slug}`}
+            class="block bg-background-secondary border border-border rounded-lg p-6 hover:border-primary transition-colors"
+          >
+            <h2 class="text-2xl font-semibold text-text mb-2">
+              {doc.data.title}
+            </h2>
+            <p class="text-text-secondary">
+              {doc.data.description}
+            </p>
+          </a>
+        ))}
+      </div>
+      
+      {sortedDocs.length === 0 && (
+        <div class="text-center py-12">
+          <p class="text-text-secondary">Documentation coming soon...</p>
+        </div>
+      )}
+    </div>
+  </div>
+</BaseLayout>
+

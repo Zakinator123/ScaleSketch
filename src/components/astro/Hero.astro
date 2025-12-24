@@ -1,0 +1,41 @@
+---
+import { Button } from '../ui/button';
+---
+
+<section class="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-background-secondary px-4">
+  <div class="max-w-6xl mx-auto text-center">
+    <h1 class="text-5xl md:text-7xl font-bold text-text mb-6 leading-tight">
+      Measure Anything on Your
+      <span class="text-primary">Floor Plans</span>
+    </h1>
+    
+    <p class="text-xl md:text-2xl text-text-secondary mb-8 max-w-3xl mx-auto">
+      Upload images and draw precisely measured shapes with real-world measurements. 
+      Perfect for floor plans, blueprints, and architectural drawings.
+    </p>
+    
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+      <Button size="lg" asChild>
+        <a href="/" class="text-lg px-8 py-6">
+          Launch App →
+        </a>
+      </Button>
+      
+      <Button variant="outline" size="lg" asChild>
+        <a href="/docs" class="text-lg px-8 py-6">
+          View Documentation
+        </a>
+      </Button>
+    </div>
+    
+    <div class="mt-16 rounded-lg overflow-hidden shadow-2xl border border-border max-w-4xl mx-auto">
+      <img 
+        src="/demo-screenshot.png" 
+        alt="ScaleSketch interface showing measurement tools"
+        class="w-full h-auto"
+        loading="eager"
+      />
+    </div>
+  </div>
+</section>
+

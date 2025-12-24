@@ -1,0 +1,129 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(date);
+}
+---
+
+<BaseLayout 
+  title={`${post.data.title} - ScaleSketch Blog`}
+  description={post.data.description}
+  image={post.data.image}
+  article={true}
+  publishedTime={post.data.date.toISOString()}
+>
+  <div class="min-h-screen bg-background">
+    <div class="max-w-4xl mx-auto px-4 py-16">
+      <nav class="mb-8">
+        <a href="/blog" class="text-primary hover:underline">← Back to Blog</a>
+      </nav>
+      
+      <article class="prose prose-invert prose-lg max-w-none">
+        <header class="mb-8">
+          <time class="text-sm text-text-muted block mb-4">
+            {formatDate(post.data.date)}
+          </time>
+          <h1 class="text-4xl font-bold text-text mb-4">{post.data.title}</h1>
+          <p class="text-xl text-text-secondary">{post.data.description}</p>
+          
+          {post.data.tags.length > 0 && (
+            <div class="flex flex-wrap gap-2 mt-4">
+              {post.data.tags.map((tag) => (
+                <span class="text-xs bg-background-tertiary text-text-secondary px-2 py-1 rounded">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </header>
+        
+        <div class="text-text-secondary">
+          <Content />
+        </div>
+      </article>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .prose {
+    color: #e0e0e0;
+  }
+  
+  .prose h2 {
+    color: #ffffff;
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .prose h3 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .prose p {
+    margin-bottom: 1rem;
+    line-height: 1.75;
+  }
+  
+  .prose ul, .prose ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .prose li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .prose code {
+    background: #2a2a2a;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+  }
+  
+  .prose pre {
+    background: #2a2a2a;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+  
+  .prose a {
+    color: #3a7bc8;
+    text-decoration: underline;
+  }
+  
+  .prose a:hover {
+    color: #5a9bd8;
+  }
+  
+  .prose img {
+    border-radius: 0.5rem;
+    margin: 2rem 0;
+  }
+</style>
+

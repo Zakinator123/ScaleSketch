@@ -1,4 +1,4 @@
-import { createContext, useContext, ReactNode } from 'react';
+import { createContext, useContext, type ReactNode } from 'react';
 import type { Shape, Tool, ScaleCalibration, Unit, DocumentSource, Point } from '../types';
 
 interface AppContextValue {

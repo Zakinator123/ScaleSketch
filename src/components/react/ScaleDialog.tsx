@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import type { Point, ScaleCalibration, Unit } from '../types';
-import { distance } from '../utils/geometry';
+import type { Point, ScaleCalibration, Unit } from '../../types';
+import { distance } from '../../utils/geometry';
 
 interface ScaleDialogProps {
   isOpen: boolean;

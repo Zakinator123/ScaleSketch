@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Ruler, Eye, EyeOff, Pencil, Trash2 } from 'lucide-react';
-import type { Shape } from '../types';
+import type { Shape } from '../../types';
 
 interface ShapeListProps {
   shapes: Shape[];

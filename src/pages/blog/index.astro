@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', ({ data }) => data.published !== false);
+const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(date);
+}
+---
+
+<BaseLayout 
+  title="Blog - ScaleSketch"
+  description="News, tutorials, and updates about ScaleSketch measurement tool"
+>
+  <div class="min-h-screen bg-background">
+    <div class="max-w-4xl mx-auto px-4 py-16">
+      <h1 class="text-4xl md:text-5xl font-bold text-text mb-4">Blog</h1>
+      <p class="text-xl text-text-secondary mb-12">
+        News, tutorials, and updates
+      </p>
+      
+      <div class="space-y-8">
+        {sortedPosts.map((post) => (
+          <article class="bg-background-secondary border border-border rounded-lg p-6 hover:border-primary transition-colors">
+            <a href={`/blog/${post.slug}`}>
+              <time class="text-sm text-text-muted block mb-2">
+                {formatDate(post.data.date)}
+              </time>
+              <h2 class="text-2xl font-semibold text-text mb-2 hover:text-primary transition-colors">
+                {post.data.title}
+              </h2>
+              <p class="text-text-secondary mb-4">
+                {post.data.description}
+              </p>
+              {post.data.tags.length > 0 && (
+                <div class="flex flex-wrap gap-2">
+                  {post.data.tags.map((tag) => (
+                    <span class="text-xs bg-background-tertiary text-text-secondary px-2 py-1 rounded">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </a>
+          </article>
+        ))}
+      </div>
+      
+      {sortedPosts.length === 0 && (
+        <div class="text-center py-12">
+          <p class="text-text-secondary">Blog posts coming soon...</p>
+        </div>
+      )}
+    </div>
+  </div>
+</BaseLayout>
+
