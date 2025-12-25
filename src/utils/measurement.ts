@@ -1,5 +1,5 @@
 import type { Shape, ScaleCalibration, Measurement, Unit } from '../types';
-import { distance, polygonArea, polygonPerimeter, rectangleArea, rectangleDimensions, getRectangleCorners } from './geometry';
+import { distance, polygonArea, polygonPerimeter, rectangleDimensions } from './geometry';
 import { pixelsToRealWorld, formatMeasurement, formatArea } from './units';
 
 /**

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type { Point } from '../types';
 import { screenToCanvas } from '../utils/geometry';
 import { MIN_ZOOM, MAX_ZOOM, ZOOM_FACTOR } from '../constants';
@@ -20,7 +20,7 @@ export function useCanvas(canvasRef: React.RefObject<HTMLCanvasElement | null>) 
     };
     
     return screenToCanvas(screenPoint, panOffset, zoom);
-  }, [panOffset, zoom]);
+  }, [canvasRef, panOffset, zoom]);
 
   const handleWheel = useCallback((e: React.WheelEvent<HTMLCanvasElement>) => {
     e.preventDefault();

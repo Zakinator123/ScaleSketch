@@ -361,13 +361,20 @@ export default function Canvas() {
   return (
     <div
       ref={containerRef}
-      className={`canvas-wrapper ${!document ? "empty-state" : ""} ${
-        isDraggingFile ? "dragging-file" : ""
+      className={`w-full h-full relative ${
+        !document 
+          ? "bg-[linear-gradient(90deg,rgba(58,123,200,0.05)_1px,transparent_1px),linear-gradient(rgba(58,123,200,0.05)_1px,transparent_1px)] bg-[length:40px_40px] bg-[-1px_-1px]" 
+          : ""
       }`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
+      {isDraggingFile && (
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(58,123,200,0.15)_1px,transparent_1px),linear-gradient(rgba(58,123,200,0.15)_1px,transparent_1px)] bg-[length:40px_40px] bg-[-1px_-1px] pointer-events-none z-10">
+          <div className="absolute inset-5 border-[3px] border-dashed border-primary rounded-lg animate-pulse" />
+        </div>
+      )}
       <canvas
         ref={canvasRef}
         onMouseDown={handleMouseDown}

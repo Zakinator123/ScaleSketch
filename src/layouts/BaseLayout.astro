@@ -28,6 +28,13 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <script is:inline>
+      // Ensure dark mode is always applied immediately
+      (function() {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      })();
+    </script>
     
     <SEO 
       title={title}
@@ -38,7 +45,7 @@ const {
       modifiedTime={modifiedTime}
     />
   </head>
-  <body class="bg-background text-text">
+  <body class="bg-background text-foreground">
     <slot />
     <Analytics client:only="react" />
   </body>

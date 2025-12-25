@@ -25,7 +25,7 @@ export function useShapeInteraction({
   const [rotatingShape, setRotatingShape] = useState<string | null>(null);
   const [rotationStartAngle, setRotationStartAngle] = useState<number>(0);
 
-  const getShapeCenter = (shape: Shape): Point => {
+  const getShapeCenter = useCallback((shape: Shape): Point => {
     if (shape.type === 'rectangle') {
       return {
         x: (shape.topLeft.x + shape.bottomRight.x) / 2,
@@ -38,9 +38,9 @@ export function useShapeInteraction({
       };
     }
     return { x: 0, y: 0 };
-  };
+  }, []);
 
-  const getShapeVertices = (shape: Shape): Point[] => {
+  const getShapeVertices = useCallback((shape: Shape): Point[] => {
     if (shape.type === 'line') {
       return [shape.start, shape.end];
     } else if (shape.type === 'rectangle') {
@@ -50,9 +50,9 @@ export function useShapeInteraction({
       return shape.points.map(p => rotatePoint(p, center, shape.rotation));
     }
     return [];
-  };
+  }, [getShapeCenter]);
 
-  const getRotationHandlePoint = (shape: Shape, zoom: number): Point | null => {
+  const getRotationHandlePoint = useCallback((shape: Shape, zoom: number): Point | null => {
     if (shape.type !== 'rectangle' && shape.type !== 'polygon') return null;
     if (shape.type === 'polygon' && !shape.closed) return null;
 
@@ -74,7 +74,7 @@ export function useShapeInteraction({
       center,
       shape.rotation
     );
-  };
+  }, [getShapeCenter, getShapeVertices]);
 
   const handleMouseDown = useCallback((point: Point) => {
     if (selectedShapeId) {
@@ -86,7 +86,10 @@ export function useShapeInteraction({
           const angleRad = Math.atan2(point.y - center.y, point.x - center.x);
           const angleDeg = (angleRad * 180) / Math.PI;
           setRotatingShape(selectedShape.id);
-          setRotationStartAngle((angleDeg - selectedShape.rotation) * Math.PI / 180);
+          const currentRotation = (selectedShape.type === 'rectangle' || selectedShape.type === 'polygon') 
+            ? selectedShape.rotation 
+            : 0;
+          setRotationStartAngle((angleDeg - currentRotation) * Math.PI / 180);
           return { type: 'rotation' as const };
         }
 
@@ -124,7 +127,7 @@ export function useShapeInteraction({
 
     onShapeSelect(null);
     return { type: 'none' as const };
-  }, [shapes, selectedShapeId, zoom, onShapeSelect]);
+  }, [shapes, selectedShapeId, zoom, onShapeSelect, getRotationHandlePoint, getShapeVertices, getShapeCenter]);
 
   const handleMouseMove = useCallback((point: Point) => {
     if (rotatingShape) {
@@ -166,7 +169,7 @@ export function useShapeInteraction({
       setDragStartPoint(point);
       return;
     }
-  }, [rotatingShape, draggedVertex, draggedShape, dragStartPoint, shapes, rotationStartAngle, onShapesChange]);
+  }, [rotatingShape, draggedVertex, draggedShape, dragStartPoint, shapes, rotationStartAngle, onShapesChange, getShapeCenter]);
 
   const handleMouseUp = useCallback(() => {
     if (rotatingShape) {

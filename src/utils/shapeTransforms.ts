@@ -135,6 +135,12 @@ export function translateShape(shape: Shape, dx: number, dy: number): Shape {
 }
 
 export function rotateShape(shape: Shape, newRotation: number): Shape {
-  return { ...shape, rotation: newRotation };
+  if (shape.type === 'rectangle') {
+    return { ...shape, rotation: newRotation };
+  } else if (shape.type === 'polygon') {
+    return { ...shape, rotation: newRotation };
+  }
+  // Lines don't support rotation
+  return shape;
 }
 

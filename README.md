@@ -23,7 +23,6 @@ pnpm build     # Production build
 - **Shape Management**: Label, delete, and organize shapes in a list view
 
 ### Marketing Site
-- **Landing Page**: Professional hero, features, and CTA sections
 - **Documentation**: Markdown-based docs (Getting Started, Measurements guide)
 - **Blog**: Content management system for articles
 
@@ -32,16 +31,44 @@ pnpm build     # Production build
 - **Astro** - Static site generator for landing/docs/blog
 - **React** - Canvas measurement tool
 - **Tailwind CSS** - Utility-first styling
+- **shadcn/ui** - UI components + theming via CSS variables (Radix UI)
 - **TypeScript** - Full type safety
 - **Vercel** - Hosting and analytics
+
+## UI & Theming (shadcn/ui)
+
+This project uses **shadcn/ui with CSS variables** (recommended approach).
+
+- **Config**: `components.json` → `tailwind.cssVariables: true`
+- **Theme tokens**: `src/styles/globals.css` (`:root` + `.dark`)
+- **Tailwind mapping**: `tailwind.config.mjs` uses `oklch(var(--token))` for colors
+
+### Important: CSS variable format
+
+Because Tailwind is configured as `oklch(var(--token))`, the variables in `src/styles/globals.css` must be **raw OKLCH components** (e.g. `--background: 0.17 0 0;`) rather than `oklch(...)`.
+
+### Dark mode
+
+Dark mode is **class-based** (`darkMode: 'class'`). The app currently forces dark mode in `src/layouts/BaseLayout.astro` by applying the `dark` class to `<html>`.
+
+### Updating / adding shadcn components
+
+```bash
+# Add a component
+pnpm dlx shadcn@latest add input
+
+# Update an existing component to the latest shadcn version
+pnpm dlx shadcn@latest add button --overwrite
+```
+
+To change the overall palette, edit tokens in `src/styles/globals.css` or use the shadcn theme generator at `https://ui.shadcn.com/themes`.
 
 ## Project Structure
 
 ```
 src/
 ├── pages/                    # Routes
-│   ├── index.astro           # Landing page
-│   ├── app.astro             # Canvas tool
+│   ├── index.astro           # Canvas tool (React island)
 │   ├── docs/                 # Documentation pages
 │   └── blog/                 # Blog pages
 ├── content/                  # Markdown content
@@ -65,7 +92,7 @@ src/
 ## Architecture
 
 ### Canvas App (React)
-The measurement tool is a React SPA that loads on `/app`:
+The measurement tool is a React SPA that loads on `/` (via an Astro page + React island):
 
 **Custom Hooks:**
 - `useCanvas` - Pan/zoom/resize logic
@@ -89,10 +116,15 @@ The measurement tool is a React SPA that loads on `/app`:
 
 ### Marketing Site (Astro)
 Static HTML generation for excellent SEO:
-- Landing page with hero, features, CTA
-- Documentation from Markdown
-- Blog from Markdown
-- Zero JavaScript on marketing pages
+- Documentation from Markdown (`/docs`)
+- Blog from Markdown (`/blog`)
+- Minimal JavaScript outside the canvas app
+
+## Production / Deployment Notes
+
+- **CI**: GitHub Actions workflow at `.github/workflows/ci.yml` runs lint → typecheck → build.
+- **SEO**: includes standard meta tags + OpenGraph, plus sitemap generation.
+- **Analytics**: Vercel Analytics is integrated (`@vercel/analytics`) and can be enabled from the Vercel dashboard.
 
 ## Keyboard Shortcuts
 
@@ -119,14 +151,47 @@ Static HTML generation for excellent SEO:
 
 ```bash
 # Development
-pnpm dev              # Start dev server
+pnpm dev              # Start dev server with TypeScript type checking (recommended)
+pnpm dev:fast         # Start dev server only (no checks, fastest)
+pnpm dev:check        # Start dev server with linting & typechecking in watch mode
 pnpm build            # Production build
 pnpm preview          # Preview production build
 
 # Quality
 pnpm lint             # Run ESLint
+pnpm lint:fix         # Run ESLint with auto-fix
 pnpm typecheck        # TypeScript type checking
+pnpm typecheck:watch  # TypeScript type checking in watch mode
 ```
+
+## Pre-commit Hooks
+
+This project uses [Husky](https://typicode.github.io/husky/) and [lint-staged](https://github.com/lint-staged/lint-staged) to automatically run linting and type checking before commits:
+
+- **Linting**: Automatically fixes ESLint issues on staged files
+- **Type Checking**: Runs TypeScript type checking on all files
+
+The hooks are automatically set up when you run `pnpm install` (via the `prepare` script).
+
+To manually initialize Husky:
+```bash
+pnpm prepare
+```
+
+## Development Workflow
+
+**Default (`pnpm dev`)**: Runs dev server + TypeScript watch mode
+- Catches type errors immediately
+- Unobtrusive (only shows errors, not on every change)
+- Recommended for most development
+
+**Fast (`pnpm dev:fast`)**: Dev server only
+- No checks running
+- Use when you need maximum speed or are just testing UI
+
+**Full Checks (`pnpm dev:check`)**: Dev server + TypeScript + ESLint watch
+- Catches both type and lint errors in real-time
+- Use when you want comprehensive feedback during development
 
 ## Deployment
 
@@ -134,6 +199,13 @@ Deploy to Vercel:
 1. Push to GitHub
 2. Connect repository at vercel.com
 3. Vercel auto-detects Astro and deploys
+
+Recommended follow-ups after first deploy:
+- **Enable Analytics** in the Vercel dashboard (no code changes).
+- **Set your canonical site URL** in `astro.config.mjs` (used by sitemap/SEO).
+- Add basic assets:
+  - `public/og-image.png` (1200×630)
+  - `public/favicon.ico` (and replace any placeholder icons)
 
 Or use Vercel CLI:
 ```bash

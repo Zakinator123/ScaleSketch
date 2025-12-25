@@ -1,12 +1,13 @@
 import { useState, useCallback, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { Image as ImageIcon, Check } from "lucide-react";
-import "./App.css";
 import Canvas from "./components/react/Canvas/Canvas";
 import LeftSidebar from "./components/react/LeftSidebar";
 import ScaleDialog from "./components/react/ScaleDialog";
 import ShapeAttributes from "./components/react/ShapeAttributes";
 import ShapeList from "./components/react/ShapeList";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { AppProvider, useAppContext } from "./contexts/AppContext";
 import { useUndoRedo } from "./hooks/useUndoRedo";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
@@ -257,29 +258,31 @@ function AppContent() {
         onResetScale={handleResetScale}
       />
 
-      <div className="canvas-container">
+      <div className="flex-1 relative bg-background overflow-hidden">
         <Canvas />
 
         {scale && (
-          <div className="scale-indicator">
+          <Badge className="absolute top-5 left-5 z-10 flex items-center gap-1.5 shadow-lg">
             <Check size={16} />
             Scale set: {scale.realWorldDistance} {scale.unit}
-          </div>
+          </Badge>
         )}
 
         {document && (
-          <button
-            className="change-image-button"
+          <Button
+            variant="outline"
+            size="sm"
+            className="absolute bottom-5 right-5 shadow-lg z-10"
             onClick={() => setDocument(null)}
             title="Change document"
           >
             <ImageIcon size={16} />
             Change Image
-          </button>
+          </Button>
         )}
       </div>
 
-      <div className="right-sidebar">
+      <div className="w-80 bg-card border-l border-border flex flex-col overflow-hidden">
         <ShapeList
           shapes={shapes}
           selectedShapeId={selectedShapeId}
@@ -368,7 +371,7 @@ function App() {
   };
 
   return (
-    <div className="app">
+    <div className="flex h-screen w-screen bg-background text-foreground overflow-hidden">
       <AppProvider value={contextValue}>
         <AppContent />
       </AppProvider>

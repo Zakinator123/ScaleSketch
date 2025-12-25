@@ -3,33 +3,60 @@ export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   darkMode: 'class',
   theme: {
+    container: {
+      center: true,
+      padding: '2rem',
+      screens: {
+        '2xl': '1400px',
+      },
+    },
     extend: {
       colors: {
-        background: {
-          DEFAULT: '#1a1a1a',
-          secondary: '#252525',
-          tertiary: '#2a2a2a',
-        },
-        border: {
-          DEFAULT: '#3a3a3a',
-          hover: '#4a4a4a',
-        },
-        text: {
-          DEFAULT: '#e0e0e0',
-          secondary: '#b0b0b0',
-          muted: '#808080',
-        },
+        border: 'oklch(var(--border))',
+        input: 'oklch(var(--input))',
+        ring: 'oklch(var(--ring))',
+        background: 'oklch(var(--background))',
+        foreground: 'oklch(var(--foreground))',
         primary: {
-          DEFAULT: '#3a7bc8',
-          hover: '#5a9bd8',
+          DEFAULT: 'oklch(var(--primary))',
+          foreground: 'oklch(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'oklch(var(--secondary))',
+          foreground: 'oklch(var(--secondary-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'oklch(var(--destructive))',
+          foreground: 'oklch(var(--destructive-foreground))',
+        },
+        muted: {
+          DEFAULT: 'oklch(var(--muted))',
+          foreground: 'oklch(var(--muted-foreground))',
         },
         accent: {
-          blue: '#3a7bc8',
-          green: '#4caf50',
-          red: '#dc3545',
-          yellow: '#ffc107',
+          DEFAULT: 'oklch(var(--accent))',
+          foreground: 'oklch(var(--accent-foreground))',
         },
-        ring: '#5a9bd8',
+        popover: {
+          DEFAULT: 'oklch(var(--popover))',
+          foreground: 'oklch(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'oklch(var(--card))',
+          foreground: 'oklch(var(--card-foreground))',
+        },
+        chart: {
+          '1': 'oklch(var(--chart-1))',
+          '2': 'oklch(var(--chart-2))',
+          '3': 'oklch(var(--chart-3))',
+          '4': 'oklch(var(--chart-4))',
+          '5': 'oklch(var(--chart-5))',
+        },
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
         sans: [
@@ -47,21 +74,21 @@ export default {
         ],
       },
       keyframes: {
-        "in": {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
-        "out": {
-          "0%": { opacity: "1" },
-          "100%": { opacity: "0" },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
         },
       },
       animation: {
-        "in": "in 0.2s ease-out",
-        "out": "out 0.2s ease-in",
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
 };
 

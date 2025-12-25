@@ -24,12 +24,6 @@ import {
   MEASUREMENT_LABEL_OFFSET_Y,
 } from '../constants';
 
-interface RenderContext {
-  ctx: CanvasRenderingContext2D;
-  panOffset: Point;
-  zoom: number;
-}
-
 export function drawVertex(ctx: CanvasRenderingContext2D, point: Point, zoom: number) {
   ctx.fillStyle = VERTEX_FILL_COLOR;
   ctx.strokeStyle = VERTEX_STROKE_COLOR;

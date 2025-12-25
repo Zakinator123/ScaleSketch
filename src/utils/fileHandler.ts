@@ -36,7 +36,8 @@ async function processImageFile(file: File): Promise<DocumentSource> {
 /**
  * Process a PDF file (future implementation)
  */
-async function processPDFFile(file: File): Promise<DocumentSource> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function processPDFFile(_file: File): Promise<DocumentSource> {
   // TODO: Implement PDF processing
   throw new Error('PDF processing not yet implemented');
 }
@@ -44,7 +45,8 @@ async function processPDFFile(file: File): Promise<DocumentSource> {
 /**
  * Process a CAD file (future implementation)
  */
-async function processCADFile(file: File): Promise<DocumentSource> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function processCADFile(_file: File): Promise<DocumentSource> {
   // TODO: Implement CAD processing
   throw new Error('CAD processing not yet implemented');
 }

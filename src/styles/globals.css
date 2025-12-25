@@ -2,14 +2,99 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base styles that work with Tailwind */
+@layer base {
+  :root {
+    --radius: 0.625rem;
+    /*
+      IMPORTANT:
+      Tailwind is configured to use `oklch(var(--token))`, so these variables must
+      be raw OKLCH components (e.g. `0.205 0 0`), NOT `oklch(...)`.
+    */
+    --background: 1 0 0;
+    --foreground: 0.145 0 0;
+    --card: 1 0 0;
+    --card-foreground: 0.145 0 0;
+    --popover: 1 0 0;
+    --popover-foreground: 0.145 0 0;
+    --primary: 0.205 0 0;
+    --primary-foreground: 0.985 0 0;
+    --secondary: 0.97 0 0;
+    --secondary-foreground: 0.205 0 0;
+    --muted: 0.97 0 0;
+    --muted-foreground: 0.556 0 0;
+    --accent: 0.97 0 0;
+    --accent-foreground: 0.205 0 0;
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+    --border: 0.922 0 0;
+    --input: 0.922 0 0;
+    --ring: 0.708 0 0;
+    --chart-1: 0.646 0.222 41.116;
+    --chart-2: 0.6 0.118 184.704;
+    --chart-3: 0.398 0.07 227.392;
+    --chart-4: 0.828 0.189 84.429;
+    --chart-5: 0.769 0.188 70.08;
+  }
+
+  .dark {
+    /* Muted, low-contrast dark palette (more midtones, fewer pure extremes) */
+    --background: 0.17 0 0;
+    --foreground: 0.80 0 0;
+    
+    /* Surfaces */
+    --card: 0.205 0 0;
+    --card-foreground: 0.78 0 0;
+    
+    --popover: 0.205 0 0;
+    --popover-foreground: 0.78 0 0;
+    
+    /* Brand primary (blue) */
+    --primary: 0.58 0.14 250;
+    --primary-foreground: 0.98 0 0;
+    
+    --secondary: 0.24 0 0;
+    --secondary-foreground: 0.74 0 0;
+    
+    /* Muted tones for secondary UI */
+    --muted: 0.235 0 0;
+    --muted-foreground: 0.64 0 0;
+    
+    /* Hover / active surfaces */
+    --accent: 0.26 0 0;
+    --accent-foreground: 0.82 0 0;
+    
+    --destructive: 0.56 0.16 22;
+    --destructive-foreground: 0.98 0 0;
+    
+    /* Borders/inputs: translucent (less “outlined”) */
+    --border: 1 0 0 / 0.10;
+    --input: 1 0 0 / 0.12;
+    
+    --ring: 0.58 0.14 250;
+    
+    --chart-1: 0.488 0.243 264.376;
+    --chart-2: 0.696 0.17 162.48;
+    --chart-3: 0.769 0.188 70.08;
+    --chart-4: 0.627 0.265 303.9;
+    --chart-5: 0.645 0.246 16.439;
+  }
+  
+  /* Force dark mode on html element */
+  html.dark,
+  html[class="dark"],
+  html[data-theme="dark"] {
+    color-scheme: dark;
+  }
+}
+
 @layer base {
   * {
+    @apply border-border;
     box-sizing: border-box;
   }
 
   body {
-    @apply bg-background text-text antialiased;
+    @apply bg-background text-foreground antialiased;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -29,6 +114,4 @@
   }
 }
 
-/* Keep the existing App.css for now - we'll migrate incrementally */
-/* This allows the React app to continue working while we transition */
 
